@@ -76,6 +76,8 @@ public class Request {
                         header.substring(splitIndex + 2)
                 );
             });
+
+            return request;
         } catch (Exception ignored) {  }
 
         return null;

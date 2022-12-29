@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import me.gleeming.galaxy.server.GalaxyServer;
 import me.gleeming.galaxy.server.request.Request;
+import me.gleeming.galaxy.server.response.Response;
+import me.gleeming.galaxy.server.response.content.ContentType;
+import me.gleeming.galaxy.server.response.status.StatusCode;
 import me.gleeming.galaxy.thread.GalaxyThread;
-import me.gleeming.galaxy.thread.runnable.SafeRunnable;
+import me.gleeming.galaxy.thread.runnable.ErrorRunnable;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -40,7 +43,7 @@ public class ClientAcceptThread extends GalaxyThread {
 
         Socket socket = server.getServerSocket().accept();
 
-        clientService.execute(new SafeRunnable() {
+        clientService.execute(new ErrorRunnable() {
             @Override
             public void runSafe() throws Exception {
                 BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -55,6 +58,20 @@ public class ClientAcceptThread extends GalaxyThread {
 
                 Request request = Request.parse(lines);
 
+                // A parsed request being null
+                // means that the client has
+                // sent a bad request.
+                if (request == null) {
+                    ErrorRunnable.of(() -> new Response(
+                            StatusCode.BAD_REQUEST,
+                            ContentType.JSON,
+                            "Bad request."
+                    ).send(socket)).run();
+                    return;
+                }
+
+                Response response = new Response(StatusCode.OK, ContentType.JSON, "{banana: \"hi\"}");
+                response.send(socket);
                 socket.close();
             }
         });
