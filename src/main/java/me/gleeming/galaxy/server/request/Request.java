@@ -56,7 +56,7 @@ public class Request {
             URL url = new URL("https://url.net" + baseRequest[1]);
             request.setPath(url.getPath());
 
-            Arrays.stream(url.getQuery().split("&")).forEach(param -> {
+            if (url.getQuery() != null) Arrays.stream(url.getQuery().split("&")).forEach(param -> {
                 int equalsIndex = param.indexOf("=");
 
                 String key = equalsIndex > 0 ? param.substring(0, equalsIndex) : param;

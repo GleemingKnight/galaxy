@@ -7,8 +7,21 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ContentType {
 
-    JSON("application/json"), XML("application/xml");
+    /**
+     * Signals that a response contains
+     * text formatted as json.
+     */
+    JSON("application/json"),
 
+    /**
+     * Signals that a response contains
+     * text formatted as xml.
+     */
+    XML("application/xml");
+
+    /**
+     * The usage according to the http protocol.
+     */
     private final String usage;
 
 }

@@ -1,8 +1,9 @@
 package me.gleeming.galaxy.thread;
 
-
-import me.gleeming.galaxy.log.LogHandler;
-
+/**
+ * A utility class used to create
+ * infinitely repeating threads.
+ */
 public abstract class GalaxyThread extends Thread {
 
     public GalaxyThread() {
@@ -12,11 +13,8 @@ public abstract class GalaxyThread extends Thread {
     @Override
     public void run() {
         while (true) {
-            try {
-                tick();
-            } catch(Exception exception) {
-                exception(exception);
-            }
+            try { tick(); }
+            catch(Exception exception) { exception(exception); }
         }
     }
 

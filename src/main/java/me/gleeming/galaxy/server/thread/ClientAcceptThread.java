@@ -65,12 +65,12 @@ public class ClientAcceptThread extends GalaxyThread {
                     ErrorRunnable.of(() -> new Response(
                             StatusCode.BAD_REQUEST,
                             ContentType.JSON,
-                            "Bad request."
+                            "Bad request.".getBytes()
                     ).send(socket)).run();
                     return;
                 }
 
-                Response response = new Response(StatusCode.OK, ContentType.JSON, "{banana: \"hi\"}");
+                Response response = new Response(StatusCode.OK, ContentType.JSON, "{banana: \"hi\"}".getBytes());
                 response.send(socket);
                 socket.close();
             }

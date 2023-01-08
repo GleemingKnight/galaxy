@@ -5,7 +5,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum StatusCode {
 
+    /**
+     * Indicates that the request was successful
+     * and has been handled accordingly.
+     */
     OK(200, "OK"),
+
+    /**
+     * Indicates that the request could not be handled
+     * due to an error made by the client.
+     */
     BAD_REQUEST(400, "Bad Request");
 
     /**
